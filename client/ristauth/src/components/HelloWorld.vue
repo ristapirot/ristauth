@@ -1,40 +1,17 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h1 v-if="getCurrentUser.isLogged">Welcome, {{currentUser.name}}</h1>
-    <div v-if="!getCurrentUser.isLogged">
-      <h2>Have an account? Click below to login.</h2>
-      <ul>
-        <li>
-          <router-link to="/login" tag="a">
-            Login
-          </router-link>
-        </li>
-      </ul>
-    </div>
-    <div v-if="!getCurrentUser.isLogged">
-      <h2>You're still not part of our team? Join now!</h2>
-      <ul>
-        <li>
-          <router-link to="/register" tag="a">
-            Register
-          </router-link>
-        </li>
-      </ul>
-    </div>
-    <div v-if="getCurrentUser.isLogged">
-      <h2 @click="logout"><a href="">Logout</a></h2>
-    </div>
-    <div v-if="getCurrentUser.isLogged">
-      <h2><router-link to="/newpost" tag="a">New post</router-link></h2>
-    </div>
-    <div v-if="getCurrentUser.isLogged">
-      <h2><router-link to="/myposts" tag="a">My posts</router-link></h2>
-    </div>
-    <div v-for="post in getPosts" :key="post._id">
-      <h2>{{ post.title }}</h2>
-      <p>{{ post.content }}</p>
-    </div>
+    <v-expansion-panel class="posts">
+      <v-expansion-panel-content
+        v-for="post in getPosts"
+        :key="post._id"
+      >
+        <div slot="header">{{ post.title }}</div>
+        <v-card>
+          <v-card-text>{{ post.content }}</v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
   </div>
 </template>
 
@@ -44,7 +21,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to my first working Auth software. This will scale up when this becomes 100% secure.',
-      currentUser: {}
+      currentUser: {},
+      items: ['Logout']
     }
   },
   methods: {
@@ -73,6 +51,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.posts {
+  width: 60%;
+  margin: 2em auto;
+}
+
 h1, h2 {
   font-weight: normal;
 }
