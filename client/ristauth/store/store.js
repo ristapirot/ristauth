@@ -14,6 +14,8 @@ const GET_POSTS = "GET_POSTS";
 const GET_POSTS_BY_USER = "GET_POSTS_BY_USER";
 const POST = "POST";
 const POST_SUCCESS = "POST_SUCCESS";
+const UPDATE_POST = "UPDATE_POST";
+const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 
 var api = axios.create({
     baseURL: 'http://localhost:3000/'
@@ -67,6 +69,13 @@ var mutations = {
     },
     [POST_SUCCESS] (state) {
         alert('Post added!');
+    },
+    [UPDATE_POST] (state) {
+        alert('Post updated!');
+    },
+    [DELETE_POST_SUCCESS] (state, postId) {
+        state.postsByUser = state.postsByUser.filter(el => el._id !== postId);
+        console.log(state.postsByUser);
     }
 };
 
@@ -126,6 +135,26 @@ var actions = {
                 setTimeout(() => {
                     commit(POST_SUCCESS);
                 }, 500)
+            }
+        })
+    },
+    updatePost({commit}, { userId, postId, creds }) {
+        api.put('/api/user/' + userId + '/post/' + postId, creds, {
+            headers: {
+                'x-access-token': localStorage.getItem('token')
+            }
+        }).then(result => {
+            console.log(result)
+        })
+    },
+    deletePost({commit}, {userId, postId}) {
+        api.delete('api/user/' + userId + '/post/' + postId, {
+            headers: {
+                'x-access-token': localStorage.getItem('token')
+            }
+        }).then(result => {
+            if (result.data.success) {
+                commit(DELETE_POST_SUCCESS, postId)
             }
         })
     }
