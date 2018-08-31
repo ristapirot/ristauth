@@ -16,6 +16,7 @@ const POST = "POST";
 const POST_SUCCESS = "POST_SUCCESS";
 const UPDATE_POST = "UPDATE_POST";
 const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
+const GET_USER = "GET_USER";
 
 var api = axios.create({
     baseURL: 'http://localhost:3000/'
@@ -25,7 +26,8 @@ var state = {
     isLoggedIn: !!localStorage.getItem('token'),
     currentUser: {},
     posts: [],
-    postsByUser: []
+    postsByUser: [],
+    profile: {}
 };
 
 var getters = {
@@ -36,7 +38,8 @@ var getters = {
         }
     },
     getPosts: state => state.posts,
-    getPostsByUser: state => state.postsByUser
+    getPostsByUser: state => state.postsByUser,
+    getProfile: state => state.profile
 };
 
 var mutations = {
@@ -76,6 +79,9 @@ var mutations = {
     [DELETE_POST_SUCCESS] (state, postId) {
         state.postsByUser = state.postsByUser.filter(el => el._id !== postId);
         console.log(state.postsByUser);
+    },
+    [GET_USER] (state, user) {
+        state.profile = user;
     }
 };
 
@@ -155,6 +161,14 @@ var actions = {
         }).then(result => {
             if (result.data.success) {
                 commit(DELETE_POST_SUCCESS, postId)
+            }
+        })
+    },
+    getUser({commit}, userName) {
+        console.log(userName)
+        api.get('api/profile/' + userName).then(result => {
+            if (result.data.success) {
+                commit(GET_USER, result.data.posts[0])
             }
         })
     }

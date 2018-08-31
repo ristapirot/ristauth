@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Nav />
-    <router-view/>
+    <div class="app-wrapper">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -24,5 +26,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin: 0;
+}
+.app-wrapper {
+  margin: 0 25em;
 }
 </style>

@@ -4,5 +4,5 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Post', new Schema({
     title: String,
     content: String,
-    createdBy: Schema.Types.ObjectId
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User' }
 }));

@@ -96,7 +96,30 @@ apiRoutes.post('/authenticate', function(req, res) {
 apiRoutes.get('/posts', function(req, res) {
     Post.find({}, function(err, posts) {
         res.json(posts);
-    });
+    }).populate('createdBy');
+});
+
+apiRoutes.get('/profile/:idUser', function(req, res) {
+    var idUser = req.params.idUser;
+    if (idUser) {
+        User.find({ name: idUser }, function(err, posts) {
+            if (err) throw err;
+
+            if (posts) {
+                res.json({
+                    success: true,
+                    message: 'User!',
+                    posts: posts,
+                    idUser: idUser
+                })
+            } else {
+                res.json({
+                    success: false,
+                    message: 'error.'
+                })
+            }
+        })
+    }
 });
 
 apiRoutes.use(function(req, res, next) {
@@ -190,7 +213,7 @@ apiRoutes.get('/post/:id', function(req, res) {
 apiRoutes.get('/user/:idUser/posts', function(req, res) {
     var idUser = req.params.idUser;
     if (idUser) {
-        Post.find({ createdBy: idUser }, function(err, posts) {
+        Post.find({ createdBy: { _id: idUser} }, function(err, posts) {
             if (err) throw err;
 
             if (posts) {
@@ -214,7 +237,7 @@ apiRoutes.put('/user/:idUser/post/:id', function(req, res) {
     var idUser = req.params.idUser;
     Post.findByIdAndUpdate(id, req.body, function(err, post) {
         if (err) throw err;
-        if (post.createdBy == idUser) {
+        if (post.createdBy._id == idUser) {
             res.json({
                 success: true,
                 message: 'Successfully updated post!'
@@ -223,6 +246,25 @@ apiRoutes.put('/user/:idUser/post/:id', function(req, res) {
             res.json({
                 success: false,
                 message: 'No permission to update this post!'
+            })
+        }
+    })
+});
+
+apiRoutes.delete('/user/:idUser/post/:id', function(req, res) {
+    var id = req.params.id;
+    var idUser = req.params.idUser;
+    Post.findByIdAndRemove(id, req.body, function(err, post) {
+        if (err) throw err;
+        if (post.createdBy._id == idUser) {
+            res.json({
+                success: true,
+                message: 'Successfully deleted post!'
+            })
+        } else {
+            res.json({
+                success: false,
+                message: 'No permission to delete this post!'
             })
         }
     })

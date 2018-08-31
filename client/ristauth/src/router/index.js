@@ -5,10 +5,12 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import MyPosts from '@/components/MyPosts'
 import NewPost from '@/components/NewPost'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -34,6 +36,12 @@ export default new Router({
       path: '/newpost',
       name: 'NewPost',
       component: NewPost
+    },
+    {
+      path: '/profile/:id',
+      name: 'Profile',
+      component: Profile,
+      props: true
     }
   ]
 })

@@ -9,6 +9,7 @@
         <div slot="header">{{ post.title }}</div>
         <v-card>
           <v-card-text>{{ post.content }}</v-card-text>
+          <v-card-text>Posted by: <router-link tag='v-chip' :to="'/profile/' + post.createdBy.name">{{ post.createdBy.name }}</router-link></v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -20,7 +21,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to my first working Auth software. This will scale up when this becomes 100% secure.',
+      msg: 'Welcome to my first working Auth software. It is scaling up very good.',
       currentUser: {},
       items: ['Logout']
     }
@@ -66,6 +67,11 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: #E91E63;
+}
+
+.v-chip:hover {
+  background-color: #E91E63;
+  color: white;
 }
 </style>

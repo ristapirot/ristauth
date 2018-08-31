@@ -29,6 +29,7 @@
               v-for="post in getPosts"
               :key="post._id"
             >
+              <!-- TO DO, CLICK ONLY WORKS ON TEXT NOT ON ALL DIV -->
               <div slot="header" @click="showEditForm(post._id)">{{ post.title }}</div>
               <v-card>
                 <v-layout justify-center>
