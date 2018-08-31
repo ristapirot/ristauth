@@ -1,7 +1,13 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <v-expansion-panel class="posts">
+  <v-container>
+    <v-layout>
+      <h1>{{ msg }}</h1>
+    </v-layout>
+    <v-layout>
+      <hello-search />
+    </v-layout>
+    <v-layout>
+      <v-expansion-panel class="posts">
       <v-expansion-panel-content
         v-for="post in getPosts"
         :key="post._id"
@@ -13,10 +19,13 @@
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
-  </div>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
+import HelloSearch from './HelloSearch.vue'
+
 export default {
   name: 'HelloWorld',
   data () {
@@ -43,6 +52,9 @@ export default {
     if (localStorage.getItem('token')) {
       this.currentUser = JSON.parse(localStorage.getItem('user'))
     }
+  },
+  components: {
+    HelloSearch
   }
 }
 </script>
