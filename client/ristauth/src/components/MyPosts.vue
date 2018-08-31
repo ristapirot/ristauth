@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <!-- <div>
         <h1>{{currentUser.name}} Posts</h1>
         <div v-for="post in getPosts" :key="post._id">
             <h2>{{ post.title }}</h2>
@@ -15,7 +15,58 @@
               </div>
             </div>
         </div>
-    </div>
+    </div> -->
+    <v-container fluid>
+      <v-layout justify-center>
+        <v-flex xs6>
+          <h1>Posts by {{currentUser.name}}</h1>
+        </v-flex>
+      </v-layout>
+      <v-layout justify-center align-center>
+        <v-flex xs6>
+          <v-expansion-panel class="posts">
+            <v-expansion-panel-content
+              v-for="post in getPosts"
+              :key="post._id"
+            >
+              <div slot="header" @click="showEditForm(post._id)">{{ post.title }}</div>
+              <v-card>
+                <v-layout justify-center>
+                  <v-flex xs6>
+                    <v-form ref="form" v-model="valid" lazy-validation>
+                      <v-text-field
+                        v-model="titleEdit"
+                        label="Title"
+                        box
+                        required
+                      ></v-text-field>
+                      <v-textarea
+                        box
+                        name="content"
+                        v-model="contentEdit"
+                        label="Content"
+                      ></v-textarea>
+                      <v-btn
+                        :disabled="!valid"
+                        @click="editPost(post._id)"
+                      >
+                        edit post
+                      </v-btn>
+                      <v-btn
+                        :disabled="!valid"
+                        @click="deletePost(post._id)"
+                      >
+                        delete post
+                      </v-btn>
+                    </v-form>
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-flex>
+      </v-layout>
+    </v-container>
 </template>
 <script>
 export default {
@@ -25,7 +76,8 @@ export default {
       titleEdit: '',
       contentEdit: '',
       editForm: false,
-      flags: []
+      flags: [],
+      valid: true
     }
   },
   methods: {
@@ -78,5 +130,13 @@ export default {
   }
 }
 </script>
-<style>
+
+<style scoped>
+  .v-form {
+    margin: 2em 0;
+  }
+
+  h1 {
+    line-height: 4em;
+  }
 </style>

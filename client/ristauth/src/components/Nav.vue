@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar dark color="primary">
+    <v-toolbar class="navbar" dark color="primary" :height="navbarHeight">
       <v-toolbar-title class="white--text">Ristauth.com</v-toolbar-title>
       <v-toolbar-title class="white--text" v-if="getCurrentUser.isLogged">Welcome, {{currentUser.name}}</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -19,12 +19,18 @@
 export default {
   data () {
     return {
-      currentUser: {}
+      currentUser: {},
+      navbarHeight: '30px'
     }
   },
   computed: {
     getCurrentUser () {
       return this.$store.getters.getLoggedUser
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout').then(this.$router.push('/'))
     }
   },
   mounted () {
@@ -39,4 +45,5 @@ export default {
 .no-shadow {
   box-shadow: none !important;
 }
+
 </style>

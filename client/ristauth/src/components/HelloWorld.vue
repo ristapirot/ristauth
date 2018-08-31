@@ -26,9 +26,6 @@ export default {
     }
   },
   methods: {
-    logout () {
-      this.$store.dispatch('logout')
-    }
   },
   computed: {
     getCurrentUser () {
@@ -58,6 +55,7 @@ export default {
 
 h1, h2 {
   font-weight: normal;
+  line-height: 4em;
 }
 ul {
   list-style-type: none;
