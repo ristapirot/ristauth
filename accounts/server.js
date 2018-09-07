@@ -175,13 +175,22 @@ apiRoutes.delete('/user/:id', function(req, res) {
 
 apiRoutes.post('/post', function(req, res) {
     var newPost = new Post({
-        title: req.body.title,
-        content: req.body.content,
+        loadingCountry: req.body.loadingCountry,
+        loadingCity: req.body.loadingCity,
+        unloadingCountry: req.body.unloadingCountry,
+        unloadingCity: req.body.unloadingCity,
+        loadingDate: req.body.loadingDate,
+        weight: req.body.weight,
+        price: req.body.price,
+        phone: req.body.phone,
         createdBy: req.body.createdBy
     });
 
     Post.findOne({
-        title: req.body.title,
+        loadingCountry: req.body.loadingCountry,
+        loadingCity: req.body.loadingCity,
+        unloadingCountry: req.body.unloadingCountry,
+        unloadingCity: req.body.unloadingCity,
         createdBy: req.body.createdBy
     }, function(err, post) {
         if (err) throw err;
