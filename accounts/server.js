@@ -28,6 +28,11 @@ app.post('/register', function(req, res) {
     var nemanja = new User({
         name: req.body.name,
         password: req.body.password,
+        email: req.body.email,
+        phone: '',
+        skypeName: '',
+        fullName: '',
+        company: '',
         admin: false
     });
 
@@ -172,6 +177,25 @@ apiRoutes.delete('/user/:id', function(req, res) {
         })
     })
 });
+
+apiRoutes.put('/user/:id', function(req, res) {
+    var id = req.params.id;
+    User.findByIdAndUpdate(id, req.body, function(err, user) {
+        if (err) throw err;
+
+        if (user._id == idUser) {
+            res.json({
+                success: true,
+                message: 'Successfully updated post!'
+            })
+        } else {
+            res.json({
+                success: false,
+                message: 'No permission to update this post!'
+            })
+        }
+    })
+})
 
 apiRoutes.post('/post', function(req, res) {
     var newPost = new Post({
