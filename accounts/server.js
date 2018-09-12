@@ -183,7 +183,7 @@ apiRoutes.put('/user/:id', function(req, res) {
     User.findByIdAndUpdate(id, req.body, function(err, user) {
         if (err) throw err;
 
-        if (user._id == idUser) {
+        if (user._id == id) {
             res.json({
                 success: true,
                 message: 'Successfully updated post!'
